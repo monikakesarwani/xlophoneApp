@@ -29,7 +29,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate{
        soundPlayer()
         
         
-        selectedSoundFileName = soundArray[sender.tag - 1]
+        selectedSoundFileName = soundArray[sender.tag-1]
+        
         print(selectedSoundFileName)
     }
     
