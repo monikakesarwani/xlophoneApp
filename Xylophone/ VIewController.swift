@@ -11,13 +11,9 @@ import AVFoundation
 
 class ViewController: UIViewController, AVAudioPlayerDelegate{
     
-    
-    var audioPlayer = AVAudioPlayer()
-    
-    var selectedSoundFileName: String = ""
-    
-    var soundArray = ["note1", "note2", "note3", "note4", "note5","note6","note7"]
+    var player: AVAudioPlayer!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -26,24 +22,30 @@ class ViewController: UIViewController, AVAudioPlayerDelegate{
 
     @IBAction func notePressed(_ sender: UIButton) {
         
-       soundPlayer()
+        //calling playsound method and tracking current sender with currentTittle 
+        playSound(soundName: sender.currentTitle!)
+        
+        //Reduces the sender's (the button that got pressed) opacity to half.
+        sender.alpha = 0.5
         
         
-        selectedSoundFileName = soundArray[sender.tag-1]
+        //Code should execute after 2 second delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                //Bring's sender's opacity back up to fully opaque.
+                sender.alpha = 1.0
+            
+        })
         
-        print(selectedSoundFileName)
+        
+        
+        
     }
     
-    func soundPlayer(){
-        let soundURL = Bundle.main.url(forResource: selectedSoundFileName, withExtension: "wav")
+    func playSound(soundName: String) {
+        let url = Bundle.main.url(forResource: soundName, withExtension: "wav")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player.play()
         
-        do{
-            try audioPlayer = AVAudioPlayer(contentsOf: soundURL!)
-            
-        } catch{
-            print(error)
-        }
-        audioPlayer.play()
     }
 
 }
